@@ -52,7 +52,7 @@
                     $alertsTemplate = '';
                     foreach($alertTravels as $at){
 
-                        $alertsTemplate .= '<div class="alert alert-primary      text-center">
+                        $alertsTemplate .= '<div class="alert alert-primary text-center">
                             <p class="text">'.$at -> getName().'</p>
                         </div>';
                     }

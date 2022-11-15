@@ -1,5 +1,6 @@
 <?php
     include_once 'classes/classes.php';
+    include_once 'alib.php';
 
     $packages = [];
     $travelForPackage = new Travel(1,"test","10.10.2022","11.10.2022",0,"","","",""); 
@@ -42,26 +43,7 @@
                 <label for="selectedTravel">Válassza ki az utazást</label>
                 <select class="form-control" name="selectedTravel" id="selectedTravel">
                     <?php
-                        $sql = 'SELECT * FROM travel';
-                        $connection = new mysqli($servername, $username, $password, $db);
-
-                        if($connection -> connect_error){
-                            die("Connection failed" . $connection -> connect_error);
-                        }
-
-                        $result = $connection -> query($sql);
-                        
-                        $options = "";
-                        if($result -> num_rows > 0){
-                            while($row = $result -> fetch_assoc()){
-                                $options .= '<option value="'.$row["travel_id"].'">'.$row["travel_name"].'</option>';
-                            }
-                        }
-
-                        $connection -> close();
-
-                        echo $options;
-
+                        generateTravelsAsOption($servername, $username, $password, $db);
                     ?>
                 </select>
                 <input class="form-control btn btn-primary mt-2" type="submit" value="Csomagok lekérése">

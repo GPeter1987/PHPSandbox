@@ -28,8 +28,11 @@
         $response = json_decode($response);
 
         $rate = (array)$response;
-        $rate = $rate["result"];
-   
+        if(isset($rate["result"])){
+            $rate = $rate["result"];
+        }else{
+            $rate = '-- Nem érhetőel aktuális árfolyam --';
+        };
    ?>
     
     <section>
