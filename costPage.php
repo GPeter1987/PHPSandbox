@@ -32,7 +32,7 @@
                 <label for="travel">Utazás</label>
                 <select name="travel" class="form-control">
                     <?php
-                        generateTravelsAsOption($servername, $username, $password, $db)
+                        generateTravelsAsOption($servername, $username, $password, $db);
                     ?>
                 </select>
             </div>
@@ -100,13 +100,16 @@
 
                         $table = "";
                         foreach ($costs as $cost) {
-                            $table .= '<tr>
+                            $table .= '<tr><form action="costPage.php" method="POST">
                                             <th scope="row">' . array_search($cost, $costs) + 1 . '</th>
                                             <td>' . $selectedTravel->getName() . '</td>
                                             <td>' . $cost->getName() . '</td>
                                             <td>' . $cost->getValue() . '</td>
                                             <td>' . $cost->getDevisa() . '</td>
-                                            <td><button class="btn btn-danger">Törlés</button></td>
+                                            <td>
+                                            <input type="text" name="selCostId" value="'.$cost -> getID().'" style="display: none">
+                                            <button name="delCostItem" type="submit" class="btn btn-danger">Törlés</button></td>
+                                            </form>
                                             </tr>';
                         }
                         echo $table;
@@ -133,6 +136,24 @@
 
         if($connection -> query($sql) === TRUE){
             echo '<p class="alert alert-success text text-center m-2">Az új költség rögzítve!</p>';
+        }else{
+            echo '<p class="alert alert-danger text text-center m-2">Valami félrement.</p>';
+        }
+
+        $connection -> close();
+    }
+
+    # Törlés problémás mert a Diaryban foreignkey - ToDo
+    if(isset($_POST["delCostItem"])){
+        $sql = 'DELETE FROM cost WHERE cost_id = '.$_POST["selCostId"];
+
+        $connection = new mysqli($servername, $username, $password, $db);
+        if($connection -> connect_error){
+            die("Connection failed" . $connection -> connect_error);
+        }
+
+        if($connection -> query($sql) === TRUE){
+            echo '<p class="alert alert-success text text-center m-2">A költség törölve lett!</p>';
         }else{
             echo '<p class="alert alert-danger text text-center m-2">Valami félrement.</p>';
         }

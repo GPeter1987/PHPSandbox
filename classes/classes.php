@@ -372,8 +372,15 @@ class Diary{
                                 $costID,
                                 $poiID,
                                 $photo){
-        
-
+        $this -> setID($diaryID);    
+        $this -> setDate($date);                        
+        $this -> setDuration($duration);
+        $this -> setActivity($activity);
+        $this -> setDesc($desc);
+        $this -> setTID($travelID);
+        $this -> setCID($costID);
+        $this -> setPID($poiID);
+        $this -> setPhoto($photo);                             
     }
     
     public function getID(){

@@ -41,4 +41,73 @@ function generateDevisaOptions(){
     echo $devisatemplate;
 }
 
+function generateCostAsOption($diaryId, $servername, $username, $password, $db){
+    $costsTemplate = '';
+    $sql = 'SELECT * FROM cost WHERE cost_id = (SELECT diary_cost_id FROM diary WHERE diary_id = '.$diaryId.')';
+
+    $conn = new mysqli($servername, $username, $password, $db);
+    if($conn -> connect_error){
+        die("Connection failed" . $conn -> connect_error);
+    }
+
+    $result = $conn -> query($sql);
+                        
+    
+    if($result -> num_rows > 0){
+        while($row = $result -> fetch_assoc()){
+            $costsTemplate .= '<option value="'.$row["cost_id"].'">'.$row["cost_name"].' - '.$row["cost_cost"].' '.$row["cost_deviza"].'</option>';
+        }
+    }
+
+    $conn -> close();
+
+    return $costsTemplate;
+}
+
+function generatePoiAsOption($servername, $username, $password, $db){
+    $poiTemplate = '';
+
+    $sql = 'SELECT * FROM poi';
+
+    $conn = new mysqli($servername, $username, $password, $db);
+    if($conn -> connect_error){
+        die("Connection failed" . $conn -> connect_error);
+    }
+
+    $result = $conn -> query($sql);
+
+    if($result -> num_rows > 0){
+        while($row = $result -> fetch_assoc()){
+            $poiTemplate .= '<option value="'.$row["poi_id"].'">'.$row["poi_name"].'</option>';
+        }
+    }
+
+    $conn -> close();
+
+    return $poiTemplate;
+}
+
+function generateAllCostsAsOption($servername, $username, $password, $db){
+    $costsTemplate = '';
+    $sql = 'SELECT * FROM cost';
+
+    $conn = new mysqli($servername, $username, $password, $db);
+    if($conn -> connect_error){
+        die("Connection failed" . $conn -> connect_error);
+    }
+
+    $result = $conn -> query($sql);
+                        
+    
+    if($result -> num_rows > 0){
+        while($row = $result -> fetch_assoc()){
+            $costsTemplate .= '<option value="'.$row["cost_id"].'">'.$row["cost_name"].' - '.$row["cost_cost"].' '.$row["cost_deviza"].'</option>';
+        }
+    }
+
+    $conn -> close();
+
+    return $costsTemplate;
+}
+
 ?>
